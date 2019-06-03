@@ -18,25 +18,24 @@ import lombok.extern.slf4j.Slf4j;
 public class MakeJWT {
 	private static final Date ISSUE_DATE;
 	private static final Date EXPIRE_DATE;
-	private static final String SALT = "osf";
 	static {
 		Calendar calendar = Calendar.getInstance();
 		ISSUE_DATE = calendar.getTime();
 		calendar.add(Calendar.DATE, 10);
 		EXPIRE_DATE = calendar.getTime();
 	}
-	public String makeJWT(UserInfoVO ui) {
+	public static String makeJWT(String salt, UserInfoVO ui) {
 		String jwt = JWT.create()
 				.withIssuer(ui.getUiId())
 				.withIssuedAt(ISSUE_DATE)
 				.withExpiresAt(EXPIRE_DATE)
-				.sign(Algorithm.HMAC256(SALT));		
+				.sign(Algorithm.HMAC256(salt));		
 		log.info("jwt=>{}",jwt);
 		return jwt;
 	}
-	public void checkJWT(String tokken, UserInfoVO ui) {
+	public static void checkJWT(String tokken, String salt, UserInfoVO ui) {
 		JWTVerifier verifier = JWT
-				.require(Algorithm.HMAC256(SALT))
+				.require(Algorithm.HMAC256(salt))
 				.withIssuer(ui.getUiId())
 				.build();
 		DecodedJWT decode = verifier.verify(tokken);

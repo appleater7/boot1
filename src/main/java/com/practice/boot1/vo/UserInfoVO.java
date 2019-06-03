@@ -13,4 +13,6 @@ public class UserInfoVO {
 	private String uiName;
 	private String tokken;
 	private String salt;
+	private String uiFilepath;
+	private String uiFilename;
 }

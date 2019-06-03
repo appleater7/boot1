@@ -7,8 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Component
 public class JWTFilter extends GenericFilterBean {
 
 	@Override

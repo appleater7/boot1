@@ -2,6 +2,49 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper	namespace="">
-
+<mapper	namespace="com.practice.boot1.mapper.UserInfoMapper">
+	<sql id="ui_columns">
+		ui_no, ui_id, ui_pwd, ui_name, salt, ui_filepath, ui_filename
+	</sql>
+	<select id="selectUserInfoList" resultType="ui">
+		select <include refid="ui_columns"></include> from user_info
+	</select>
+	<select id="selectUserInfo" resultType="ui">
+		select <include refid="ui_columns"></include> from user_info where ui_id = #{uiId}
+	</select>
+	<insert id="insertUserInfo">
+		insert into user_info(<include refid="ui_columns"></include>)
+		values (seq_ui_no.nextval,#{uiId},#{uiPwd},#{uiName},#{salt},
+		<if test="uiFilepath==null" >
+			'',
+		</if>
+		<if test="uiFilepath!=null" >
+			#{uiFilepath},
+		</if>
+		<if test="uiFilename==null" >
+			''
+		</if>
+		<if test="uiFilename!=null" >
+			#{uiFilename}
+		</if>
+		)
+	</insert>
+	<update id="updateUserInfo">
+		update user_info 
+		<set>
+			<if test="uiName!=null">
+			ui_name=#{uiName},
+			</if>
+			<if test="uiFilepath!=null">
+			ui_filepath=#{uiFilepath},
+			</if>
+			<if test="uiFilename!=null">
+			ui_filename=#{uiFilename},
+			</if>
+		</set>
+		where ui_id=#{uiId}
+	</update>
+	<delete id="deleteUserInfo">
+		delete user_info where ui_id = #{uiId}
+	</delete>
 </mapper>

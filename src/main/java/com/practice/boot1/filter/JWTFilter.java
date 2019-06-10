@@ -15,6 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class JWTFilter extends GenericFilterBean {
+	private final static String[] EXECLUDE_URI = {"login","join"};
+	
+//	@Resource
+//	private 
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
